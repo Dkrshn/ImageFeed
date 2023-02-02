@@ -29,7 +29,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xT3-bz-tRh" userLabel="Cell Image">
-                                                    <rect key="frame" x="16" y="0.0" width="358" height="222"/>
+                                                    <rect key="frame" x="16" y="4" width="358" height="218"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -39,13 +39,13 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22 августа 2022" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z4t-cI-UG8" userLabel="Date Label">
-                                                    <rect key="frame" x="24.000000000000007" y="202.66666666666666" width="96.666666666666686" height="15.333333333333343"/>
+                                                    <rect key="frame" x="24.000000000000007" y="198.66666666666666" width="96.666666666666686" height="15.333333333333343"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" name="YPWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jG0-wR-v6E" userLabel="Like Button">
-                                                    <rect key="frame" x="334" y="12" width="30" height="26"/>
+                                                    <rect key="frame" x="334" y="16" width="30" height="26"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="Active"/>
@@ -56,11 +56,11 @@
                                                 <constraint firstAttribute="trailing" secondItem="xT3-bz-tRh" secondAttribute="trailing" constant="16" id="0XH-mz-mJ9"/>
                                                 <constraint firstItem="xT3-bz-tRh" firstAttribute="leading" secondItem="y2F-4w-2IL" secondAttribute="leading" constant="16" id="79s-L9-aI1"/>
                                                 <constraint firstItem="jG0-wR-v6E" firstAttribute="top" secondItem="xT3-bz-tRh" secondAttribute="top" constant="12" id="Bpc-qh-XZo"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="z4t-cI-UG8" secondAttribute="trailing" id="Eih-wp-RH3"/>
+                                                <constraint firstItem="xT3-bz-tRh" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="z4t-cI-UG8" secondAttribute="trailing" id="Eih-wp-RH3"/>
                                                 <constraint firstAttribute="bottom" secondItem="xT3-bz-tRh" secondAttribute="bottom" constant="4" id="GlA-wd-Xas"/>
                                                 <constraint firstItem="xT3-bz-tRh" firstAttribute="trailing" secondItem="jG0-wR-v6E" secondAttribute="trailing" constant="10" id="KBE-c9-XmT"/>
-                                                <constraint firstAttribute="bottom" secondItem="z4t-cI-UG8" secondAttribute="bottom" constant="8" id="bBi-Nk-xcC"/>
-                                                <constraint firstItem="xT3-bz-tRh" firstAttribute="top" secondItem="y2F-4w-2IL" secondAttribute="top" id="dVZ-b4-M9c"/>
+                                                <constraint firstItem="xT3-bz-tRh" firstAttribute="bottom" secondItem="z4t-cI-UG8" secondAttribute="bottom" constant="8" id="bBi-Nk-xcC"/>
+                                                <constraint firstItem="xT3-bz-tRh" firstAttribute="top" secondItem="y2F-4w-2IL" secondAttribute="top" constant="4" id="dVZ-b4-M9c"/>
                                                 <constraint firstItem="z4t-cI-UG8" firstAttribute="leading" secondItem="xT3-bz-tRh" secondAttribute="leading" constant="8" id="hhX-SM-DZh"/>
                                             </constraints>
                                         </tableViewCellContentView>
