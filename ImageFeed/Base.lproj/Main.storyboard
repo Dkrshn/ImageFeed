@@ -34,22 +34,32 @@
         <!--Single Image View Controller-->
         <scene sceneID="6QT-0N-GBe">
             <objects>
-                <viewController id="aFL-ti-r2J" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="aFL-ti-r2J" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TRD-B6-bQC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="yyJ-Gx-34j">
-                                <rect key="frame" x="16" y="91" width="358" height="670"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gJX-sm-XuY">
+                                <rect key="frame" x="15" y="78" width="33" height="30"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <buttonConfiguration key="configuration" style="plain" image="chevron.backward"/>
+                                <connections>
+                                    <action selector="didTapBackButton:" destination="aFL-ti-r2J" eventType="touchUpInside" id="h7k-9b-U0i"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="5xO-5e-sEZ"/>
                         <color key="backgroundColor" name="YPBlack"/>
                         <constraints>
-                            <constraint firstItem="5xO-5e-sEZ" firstAttribute="trailing" secondItem="yyJ-Gx-34j" secondAttribute="trailing" constant="16" id="BeZ-WB-Zpu"/>
-                            <constraint firstItem="yyJ-Gx-34j" firstAttribute="leading" secondItem="5xO-5e-sEZ" secondAttribute="leading" constant="16" id="G9t-hG-uEa"/>
-                            <constraint firstItem="yyJ-Gx-34j" firstAttribute="top" secondItem="5xO-5e-sEZ" secondAttribute="top" id="KGo-S4-Oe1"/>
-                            <constraint firstItem="5xO-5e-sEZ" firstAttribute="bottom" secondItem="yyJ-Gx-34j" secondAttribute="bottom" id="sEW-Gr-Opo"/>
+                            <constraint firstAttribute="trailing" secondItem="yyJ-Gx-34j" secondAttribute="trailing" id="BeZ-WB-Zpu"/>
+                            <constraint firstItem="gJX-sm-XuY" firstAttribute="top" secondItem="5xO-5e-sEZ" secondAttribute="top" constant="31" id="EMX-1r-sX4"/>
+                            <constraint firstItem="yyJ-Gx-34j" firstAttribute="leading" secondItem="TRD-B6-bQC" secondAttribute="leading" id="G9t-hG-uEa"/>
+                            <constraint firstItem="yyJ-Gx-34j" firstAttribute="top" secondItem="TRD-B6-bQC" secondAttribute="top" id="KGo-S4-Oe1"/>
+                            <constraint firstItem="gJX-sm-XuY" firstAttribute="leading" secondItem="yyJ-Gx-34j" secondAttribute="leading" constant="15" id="mdb-Gb-G7R"/>
+                            <constraint firstAttribute="bottom" secondItem="yyJ-Gx-34j" secondAttribute="bottom" id="sEW-Gr-Opo"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="JXE-gp-JZu"/>
@@ -140,7 +150,7 @@
                     <navigationItem key="navigationItem" id="oYl-jz-8pX"/>
                     <connections>
                         <outlet property="tableView" destination="R6p-Ho-B8Y" id="c1g-a9-RNC"/>
-                        <segue destination="aFL-ti-r2J" kind="show" identifier="ShowSingleImage" id="xSq-EN-Y6g"/>
+                        <segue destination="aFL-ti-r2J" kind="presentation" identifier="ShowSingleImage" id="xSq-EN-Y6g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -245,6 +255,7 @@
         <image name="0" width="200" height="132"/>
         <image name="Active" width="30" height="26"/>
         <image name="Photo" width="70" height="70"/>
+        <image name="chevron.backward" width="9" height="16"/>
         <image name="ipad.and.arrow.forward" width="20" height="22"/>
         <image name="tab_editorial_active" width="20" height="22"/>
         <image name="tab_profile_active" width="24" height="24"/>
