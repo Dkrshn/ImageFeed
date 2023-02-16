@@ -21,18 +21,10 @@ class ProfileViewController: UIViewController {
         let profileContact = UILabel()
         let profileAbout = UILabel()
         let logOutButton = UIButton.systemButton(with: UIImage(named: "ipad.and.arrow.forward")!, target: nil, action: nil)
-        
-        profilePhoto.translatesAutoresizingMaskIntoConstraints = false
-        profileName.translatesAutoresizingMaskIntoConstraints = false
-        profileContact.translatesAutoresizingMaskIntoConstraints = false
-        profileAbout.translatesAutoresizingMaskIntoConstraints = false
-        logOutButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(profilePhoto)
-        view.addSubview(profileName)
-        view.addSubview(profileContact)
-        view.addSubview(profileAbout)
-        view.addSubview(logOutButton)
+
+       let allViewOnScreen = [profilePhoto, profileName, profileContact, profileAbout, logOutButton]
+        allViewOnScreen.forEach {view.addSubview($0)}
+        allViewOnScreen.forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
         
         profilePhoto.image = UIImage(named: "Photo")
 
