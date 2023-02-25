@@ -28,7 +28,6 @@ class ProfileViewController: UIViewController {
         
         profilePhoto.image = UIImage(named: "Photo")
 
-        
         profileName.text = "Екатерина Новикова"
         profileName.font = UIFont.boldSystemFont(ofSize: 23)
         profileName.textColor = .YPWhite
@@ -42,7 +41,6 @@ class ProfileViewController: UIViewController {
         profileAbout.textColor = .YPWhite
         
         logOutButton.tintColor = .YPRed
-        
         
         NSLayoutConstraint.activate([
             profilePhoto.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
