@@ -15,7 +15,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func makeUI() {
-        view.backgroundColor = .YPBlack
+        view.backgroundColor = .ypBlack
         let profilePhoto = UIImageView()
         let profileName = UILabel()
         let profileContact = UILabel()
@@ -30,17 +30,17 @@ class ProfileViewController: UIViewController {
 
         profileName.text = "Екатерина Новикова"
         profileName.font = UIFont.boldSystemFont(ofSize: 23)
-        profileName.textColor = .YPWhite
+        profileName.textColor = .ypWhite
         
         profileContact.text = "@ekaterina_nov"
         profileContact.font = UIFont.systemFont(ofSize: 13)
-        profileContact.textColor = .YPGray
+        profileContact.textColor = .ypGray
         
         profileAbout.text = "Hello, world!"
         profileAbout.font = UIFont.systemFont(ofSize: 13)
-        profileAbout.textColor = .YPWhite
+        profileAbout.textColor = .ypWhite
         
-        logOutButton.tintColor = .YPRed
+        logOutButton.tintColor = .ypRed
         
         NSLayoutConstraint.activate([
             profilePhoto.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),

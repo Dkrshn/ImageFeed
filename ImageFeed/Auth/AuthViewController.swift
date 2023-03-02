@@ -11,6 +11,9 @@ class AuthViewController: UIViewController {
     
     
     weak var delegate: AuthViewControllerDelegate?
+    private let auth_screen_logo = UIImageView()
+    private let button = UIButton()
+    private let showWebView = "ShowWebView"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +21,7 @@ class AuthViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowWebView" {
+        if segue.identifier == showWebView {
             let viewController = segue.destination as! WebViewViewController
             viewController.delegate = self
         } else {
@@ -27,20 +30,18 @@ class AuthViewController: UIViewController {
     }
     
     private func makeUI() {
-        view.backgroundColor = .YPBlack
-        let auth_screen_logo = UIImageView()
-        let button = UIButton()
+        view.backgroundColor = .ypBlack
         auth_screen_logo.image = UIImage(named: "AuthView")
         view.addSubview(auth_screen_logo)
         view.addSubview(button)
         auth_screen_logo.translatesAutoresizingMaskIntoConstraints = false
         button.translatesAutoresizingMaskIntoConstraints = false
         
-        button.backgroundColor = .YPWhite
+        button.backgroundColor = .ypWhite
         
-        button.tintColor = .YPWhite
+        button.tintColor = .ypWhite
         button.layer.cornerRadius = 16
-        button.setTitleColor(.YPBlack, for: .normal)
+        button.setTitleColor(.ypBlack, for: .normal)
         button.setTitle("Войти", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.addTarget(self, action: #selector(buttonEntrance), for: .touchUpInside)
@@ -57,7 +58,7 @@ class AuthViewController: UIViewController {
     }
     
     @objc func buttonEntrance() {
-         performSegue(withIdentifier: "ShowWebView", sender: nil)
+        performSegue(withIdentifier: showWebView, sender: nil)
     }
 }
 

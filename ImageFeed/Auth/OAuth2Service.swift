@@ -8,7 +8,7 @@
 import Foundation
 
 final class OAuth2Service {
-    static let shared = OAuth2Service()
+    //static let shared = OAuth2Service()
     
     private let urlSession = URLSession.shared
     
@@ -60,11 +60,11 @@ extension OAuth2Service {
     
     private func authTokenRequest(code: String) -> URLRequest {
         URLRequest.makeHTTPRequest(path: "/oauth/token"
-                                   + "?client_id=\(AccessKey)"
-                                   + "&&client_secret=\(SecretKey)"
-                                   + "&&redirect_uri=\(RedirectURI)"
+                                   + "?client_id=\(accessKey)"
+                                   + "&&client_secret=\(secretKey)"
+                                   + "&&redirect_uri=\(redirectURI)"
                                    + "&&code=\(code)"
-                                   + "&&rant_type=authorization_code",
+                                   + "&&grant_type=authorization_code",
                                    httpMethod: "POST",
                                    baseURL: URL(string: "https://unsplash.com")!)
     }
@@ -87,7 +87,7 @@ extension OAuth2Service {
 // MARK: - HTTP Request
 
 extension URLRequest {
-    static func makeHTTPRequest(path: String, httpMethod: String, baseURL: URL = DefaultBaseURL) -> URLRequest {
+    static func makeHTTPRequest(path: String, httpMethod: String, baseURL: URL = defaultBaseURL) -> URLRequest {
         var request = URLRequest(url: URL(string: path, relativeTo: baseURL)!)
         request.httpMethod = httpMethod
         return request
