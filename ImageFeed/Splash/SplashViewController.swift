@@ -11,7 +11,6 @@ final class SplashViewController: UIViewController {
     
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreenSegueIdentifier"
     private let oAuth2Service = OAuth2Service()
-    weak var webView = WebViewViewController()
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -52,8 +51,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 switch result {
                 case .success(_):
                     self.switchToTabBarController()
-                    guard let webView = self.webView else { return }
-                    vc.webViewViewControllerDidCancel(webView)
+                    self.dismiss(animated: true)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }

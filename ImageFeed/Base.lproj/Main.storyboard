@@ -304,7 +304,7 @@
                                     <action selector="didTapeBackButton:" destination="2xg-Cx-DNP" eventType="touchUpInside" id="LHJ-Db-MqC"/>
                                 </connections>
                             </button>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cks-nB-8MK">
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cks-nB-8MK">
                                 <rect key="frame" x="0.0" y="84" width="390" height="4"/>
                                 <color key="progressTintColor" name="YPBlack"/>
                             </progressView>
