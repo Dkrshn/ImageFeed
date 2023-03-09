@@ -6,15 +6,19 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
     
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreenSegueIdentifier"
     private let oAuth2Service = OAuth2Service()
+    private let oAuth2TokenStorage = OAuth2TokenStorage()
+    private let profileService = ProfileService.shared
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if OAuth2TokenStorage().token != nil {
+            fetchProfile(token: oAuth2TokenStorage.token!)
             self.switchToTabBarController()
         } else {
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
@@ -45,17 +49,33 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        UIBlockingProgressHUD.show()
         oAuth2Service.fetchOAuthToken(code, completion: {[weak self] result in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 switch result {
-                case .success(_):
-                    self.switchToTabBarController()
-                    self.dismiss(animated: true)
+                case .success(let token):
+                    self.fetchProfile(token: token)
                 case .failure(let error):
                     print(error.localizedDescription)
+                    UIBlockingProgressHUD.dismiss()
                 }
             }
         })
         }
+    
+    private func fetchProfile(token: String) {
+        profileService.fetchProfile(token, completion: {[weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(_):
+                self.switchToTabBarController()
+                self.dismiss(animated: true)
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                print(error.localizedDescription)
+                UIBlockingProgressHUD.dismiss()
+            }
+        })
+    }
     }

@@ -9,6 +9,8 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    private let profileService = ProfileService.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
@@ -28,15 +30,19 @@ class ProfileViewController: UIViewController {
         
         profilePhoto.image = UIImage(named: "Photo")
 
-        profileName.text = "Екатерина Новикова"
+       // profileName.text = "Екатерина Новикова"
+        profileName.text = profileService.profile?.name
+        print(profileName.text = profileService.profile?.name)
         profileName.font = UIFont.boldSystemFont(ofSize: 23)
         profileName.textColor = .ypWhite
         
-        profileContact.text = "@ekaterina_nov"
+        //profileContact.text = "@ekaterina_nov"
+        profileContact.text = profileService.profile?.loginName
         profileContact.font = UIFont.systemFont(ofSize: 13)
         profileContact.textColor = .ypGray
         
-        profileAbout.text = "Hello, world!"
+        //profileAbout.text = "Hello, world!"
+        profileAbout.text = profileService.profile?.bio
         profileAbout.font = UIFont.systemFont(ofSize: 13)
         profileAbout.textColor = .ypWhite
         
