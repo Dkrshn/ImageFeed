@@ -6,29 +6,40 @@
 //
 
 import UIKit
+import Kingfisher
+
 
 class ProfileViewController: UIViewController {
     
     private let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
+    let profilePhoto = UIImageView()
+    let profileName = UILabel()
+    let profileContact = UILabel()
+    let profileAbout = UILabel()
+    let logOutButton = UIButton.systemButton(with: UIImage(named: "ipad.and.arrow.forward")!, target: nil, action: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
+        
+        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.DidChangeNotification, object: nil, queue: .main) {[weak self] _ in
+            guard let self = self else { return }
+            self.updateAvatar()
+        }
+        updateAvatar()
     }
     
     private func makeUI() {
         view.backgroundColor = .ypBlack
-        let profilePhoto = UIImageView()
-        let profileName = UILabel()
-        let profileContact = UILabel()
-        let profileAbout = UILabel()
-        let logOutButton = UIButton.systemButton(with: UIImage(named: "ipad.and.arrow.forward")!, target: nil, action: nil)
 
        let allViewOnScreen = [profilePhoto, profileName, profileContact, profileAbout, logOutButton]
         allViewOnScreen.forEach {view.addSubview($0)}
         allViewOnScreen.forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
         
-        profilePhoto.image = UIImage(named: "Photo")
+        //profilePhoto.image = UIImage(named: "Photo")
+
 
        // profileName.text = "Екатерина Новикова"
         profileName.text = profileService.profile?.name
@@ -60,6 +71,18 @@ class ProfileViewController: UIViewController {
             logOutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -26),
             logOutButton.centerYAnchor.constraint(equalTo: profilePhoto.centerYAnchor)
         ])
+    }
+}
+
+extension ProfileViewController {
+    private func updateAvatar() {
+        guard  let profileImageURL = ProfileImageService.shared.avatarURL,
+               let url = URL(string: profileImageURL)  else { return }
+        print(url)
+        let processor = RoundCornerImageProcessor(cornerRadius: 20)
+        profilePhoto.kf.setImage(with: url, placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor)])
+        profilePhoto.kf.indicatorType = .activity
+        
     }
 }
 

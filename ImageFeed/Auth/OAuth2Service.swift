@@ -56,43 +56,21 @@ final class OAuth2Service {
         self.task = task
         task.resume()
     }
-    
-    
-//    func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
-//        let request = authTokenRequest(code: code)
-//        let task = object(for: request) {[weak self] result in
-//            guard let self = self else { return }
-//            switch result {
-//            case .success(let body):
-//                let authToken = body.accessToken
-//                self.authToken = authToken
-//                completion(.success(authToken))
-//            case .failure(let error):
-//                completion(.failure(error))
-//            }
-//        }
-//        task.resume()
-//    }
 }
 
 extension OAuth2Service {
     private func object(for request: URLRequest,
                         completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) -> URLSessionTask {
-        let decoder = JSONDecoder()
-        return urlSession.data(for: request, completion: {(result: Result<Data, Error>) in
+        //let decoder = JSONDecoder()
+        return urlSession.objectTask(for: request, completion: {[weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             switch result {
-            case .success(let data):
-                do {
-                    let object = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    completion(.success(object))
-                } catch {
-                    completion(.failure(error))
-                }
+            case .success(let body):
+                completion(.success(body))
             case .failure(let error):
                 completion(.failure(error))
             }
         })
-    }
+ }
     
     private func authTokenRequest(code: String) -> URLRequest {
         URLRequest.makeHTTPRequest(path: "/oauth/token"
@@ -138,31 +116,35 @@ private enum NetworkError: Error {
     case urlSessionError
 }
 
+
 extension URLSession {
-    func data(for request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionTask {
-        let fullfillCompletion: (Result<Data, Error>) -> Void = { result in
+    func objectTask<T: Decodable>(for request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionTask {
+        let fullfillCompletion: (Result<T, Error>) -> Void = { result in
             DispatchQueue.main.async {
                 completion(result)
             }
         }
-        
-        let task = dataTask(with: request, completionHandler: {data, respone, error in
-            if let data = data,
-                let respone = respone,
-               let statusCode = (respone as? HTTPURLResponse)?.statusCode
-            {
-                if 200..<300 ~= statusCode {
-                    fullfillCompletion(.success(data))
-                } else {
-                    fullfillCompletion(.failure(NetworkError.httpStatusCode(statusCode)))
+        let task = dataTask(with: request, completionHandler: {data, response, error in
+            if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                if 200 ..< 300 ~= statusCode {
+                    do {
+                        let decoder = JSONDecoder()
+                        let result = try decoder.decode(T.self, from: data)
+                        print("-------------------------------------------------!!!!!!\(result)")
+                        fullfillCompletion(.success(result))
+                        } catch {
+                            fullfillCompletion(.failure(error))
+                        }
+                        } else {
+                            fullfillCompletion(.failure(NetworkError.httpStatusCode(statusCode)))
+                        }
+                        }else if let error {
+                            fullfillCompletion(.failure(NetworkError.urlRequestError(error)))
+                        } else {
+                            fullfillCompletion(.failure(NetworkError.urlSessionError))
+                        }
+                        })
+                        task.resume()
+                        return task
+                    }
                 }
-            } else if let error = error {
-                    fullfillCompletion(.failure(NetworkError.urlRequestError(error)))
-                } else {
-                    fullfillCompletion(.failure(NetworkError.urlSessionError))
-                }
-        })
-        task.resume()
-        return task
-    }
-}
