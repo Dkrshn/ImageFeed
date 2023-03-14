@@ -56,13 +56,11 @@ extension SplashViewController: AuthViewControllerDelegate {
                 switch result {
                 case .success(let token):
                     self.fetchProfile(token: token)
-                    //UIBlockingProgressHUD.dismiss()
                 case .failure(let error):
+                    UIBlockingProgressHUD.dismiss()
                     print(error.localizedDescription)
-                   // UIBlockingProgressHUD.dismiss()
                     self.showAllert()
                 }
-
             }
         })
         }
@@ -72,13 +70,13 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .success(let profile):
-                self.switchToTabBarController()
                 self.dismiss(animated: true)
                 //UIBlockingProgressHUD.dismiss()
                 self.fetchProfileImage(username: profile.userName)
+                self.switchToTabBarController()
             case .failure(let error):
                 print(error.localizedDescription)
-               // UIBlockingProgressHUD.dismiss()
+                //UIBlockingProgressHUD.dismiss()
                 self.showAllert()
             }
         })

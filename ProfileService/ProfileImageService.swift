@@ -26,6 +26,7 @@ final class ProfileImageService {
     
     struct ProfileImageURL: Codable {
         let small: String
+        let medium: String
     }
     
      func fetchProfileImageURL(userName: String, _ completion: @escaping (Result<String, Error>) -> Void) {
@@ -33,14 +34,17 @@ final class ProfileImageService {
 //        if task != nil {
 //            task?.cancel()
 //        }
-         var requestImage = URLRequest.makeHTTPRequest(path: "users/\(userName)", httpMethod: get)
-         requestImage.setValue("Bearer \(oAuth2TokenStorage.token)", forHTTPHeaderField: "Authorization")
-         let task = urlSession.objectTask(for: requestImage, completion: {[weak self] (result: Result<UserResult, Error>) in
+         var request = URLRequest.makeHTTPRequest(path: "users/\(userName)", httpMethod: get)
+         if let token = oAuth2TokenStorage.token {
+             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+         }
+         let task = urlSession.objectTask(for: request, completion: {[weak self] (result: Result<UserResult, Error>) in
              guard let self = self else { return }
              switch result {
              case .success(let smallURL):
-                 let newSmallURL = smallURL.profileImage.small
+                 let newSmallURL = smallURL.profileImage.medium
                  self.avatarURL = newSmallURL
+                 print(newSmallURL)
                  completion(.success(newSmallURL))
                  NotificationCenter.default.post(name: ProfileImageService.DidChangeNotification, object: self,
                      userInfo: ["URL": newSmallURL])
@@ -48,7 +52,7 @@ final class ProfileImageService {
                  completion(.failure(error))
              }
          })
-       // self.task = task
+     // self.task = task
         task.resume()
     }
 }

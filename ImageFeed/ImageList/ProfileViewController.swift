@@ -38,21 +38,17 @@ class ProfileViewController: UIViewController {
         allViewOnScreen.forEach {view.addSubview($0)}
         allViewOnScreen.forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
         
-        //profilePhoto.image = UIImage(named: "Photo")
 
 
-       // profileName.text = "Екатерина Новикова"
         profileName.text = profileService.profile?.name
         print(profileName.text = profileService.profile?.name)
         profileName.font = UIFont.boldSystemFont(ofSize: 23)
         profileName.textColor = .ypWhite
         
-        //profileContact.text = "@ekaterina_nov"
         profileContact.text = profileService.profile?.loginName
         profileContact.font = UIFont.systemFont(ofSize: 13)
         profileContact.textColor = .ypGray
         
-        //profileAbout.text = "Hello, world!"
         profileAbout.text = profileService.profile?.bio
         profileAbout.font = UIFont.systemFont(ofSize: 13)
         profileAbout.textColor = .ypWhite
@@ -76,10 +72,10 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController {
     private func updateAvatar() {
+        let cache = ImageCache.default
         guard  let profileImageURL = ProfileImageService.shared.avatarURL,
                let url = URL(string: profileImageURL)  else { return }
-        print(url)
-        let processor = RoundCornerImageProcessor(cornerRadius: 20)
+        let processor = RoundCornerImageProcessor(cornerRadius: 61)
         profilePhoto.kf.setImage(with: url, placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor)])
         profilePhoto.kf.indicatorType = .activity
         

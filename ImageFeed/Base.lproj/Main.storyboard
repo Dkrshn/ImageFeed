@@ -13,7 +13,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="Xj2-rN-QnC">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarViewController" id="Vg9-yu-x3g" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" id="Vg9-yu-x3g" customClass="TabBarController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pvI-DE-TMd">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -23,10 +23,6 @@
                             <color key="backgroundColor" name="YPBlack"/>
                         </tabBarAppearance>
                     </tabBar>
-                    <connections>
-                        <segue destination="Ep1-pB-EJ4" kind="relationship" relationship="viewControllers" id="WaS-Kl-ROH"/>
-                        <segue destination="O0Z-Bj-Yg9" kind="relationship" relationship="viewControllers" id="hjm-PM-V67"/>
-                    </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3HB-E9-aBb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -100,7 +96,7 @@
         <!--ImageList-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="ImageList" id="BYZ-38-t0r" customClass="ImagesListViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImagesListViewController" title="ImageList" id="BYZ-38-t0r" customClass="ImagesListViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -202,22 +198,6 @@
             </objects>
             <point key="canvasLocation" x="-923.07692307692309" y="852.36966824644549"/>
         </scene>
-        <!--ProfileViewController-->
-        <scene sceneID="sSp-TG-mBc">
-            <objects>
-                <viewController title="ProfileViewController" id="O0Z-Bj-Yg9" customClass="ProfileViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="eok-cI-Yyu">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="zUC-ch-G6Y"/>
-                        <color key="backgroundColor" name="YPWhite"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="" image="tab_profile_active" id="RpQ-pW-ncE"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xpo-AD-bZJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="986.15384615384608" y="764.92890995260655"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="2gE-C5-I7V">
             <objects>
@@ -234,9 +214,6 @@
                         </navigationBarAppearance>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="mUC-gJ-y1g"/>
-                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b7X-Tv-6bV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -341,7 +318,6 @@
         <image name="chevron.backward" width="9" height="16"/>
         <image name="nav_back_button" width="9" height="16"/>
         <image name="tab_editorial_active" width="20" height="22"/>
-        <image name="tab_profile_active" width="24" height="24"/>
         <namedColor name="YPBlack">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
