@@ -14,6 +14,7 @@ class AuthViewController: UIViewController {
     private let auth_screen_logo = UIImageView()
     private let button = UIButton()
     private let showWebView = "ShowWebView"
+    static let shared = AuthViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +57,6 @@ class AuthViewController: UIViewController {
             button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
     }
-    
     @objc func buttonEntrance() {
         performSegue(withIdentifier: showWebView, sender: nil)
     }
@@ -66,12 +66,10 @@ extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
-    
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         vc.dismiss(animated: true)
     }
 }
-
 
 protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)

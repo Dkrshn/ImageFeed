@@ -72,13 +72,11 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController {
     private func updateAvatar() {
-        let cache = ImageCache.default
         guard  let profileImageURL = ProfileImageService.shared.avatarURL,
                let url = URL(string: profileImageURL)  else { return }
         let processor = RoundCornerImageProcessor(cornerRadius: 61)
         profilePhoto.kf.setImage(with: url, placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor)])
         profilePhoto.kf.indicatorType = .activity
-        
     }
 }
 

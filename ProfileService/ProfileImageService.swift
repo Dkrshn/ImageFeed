@@ -15,25 +15,12 @@ final class ProfileImageService {
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     static let DidChangeNotification = Notification.Name("ProfileImageProviderDidChange")
-    
-    struct UserResult: Codable {
-        let profileImage: ProfileImageURL
         
-        enum CodingKeys: String, CodingKey{
-            case profileImage = "profile_image"
-        }
-    }
-    
-    struct ProfileImageURL: Codable {
-        let small: String
-        let medium: String
-    }
-    
      func fetchProfileImageURL(userName: String, _ completion: @escaping (Result<String, Error>) -> Void) {
-//         assert(Thread.isMainThread)
-//        if task != nil {
-//            task?.cancel()
-//        }
+         assert(Thread.isMainThread)
+        if task != nil {
+            task?.cancel()
+        }
          var request = URLRequest.makeHTTPRequest(path: "users/\(userName)", httpMethod: get)
          if let token = oAuth2TokenStorage.token {
              request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -52,7 +39,7 @@ final class ProfileImageService {
                  completion(.failure(error))
              }
          })
-     // self.task = task
+      self.task = task
         task.resume()
     }
 }

@@ -10,16 +10,23 @@ import ProgressHUD
 
 final class SplashViewController: UIViewController {
     
-    private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreenSegueIdentifier"
     private let oAuth2Service = OAuth2Service()
     private let oAuth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private let authViewController = AuthViewController.shared
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        makeUI()
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         guard let token = oAuth2TokenStorage.token else {
-            return performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
+            authViewController.delegate = self
+            authViewController.modalPresentationStyle = .fullScreen
+           return present(authViewController, animated: true)
         }
         fetchProfile(token: token)
        self.switchToTabBarController()
@@ -31,25 +38,24 @@ final class SplashViewController: UIViewController {
             .instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
     }
-}
-
-extension SplashViewController {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showAuthenticationScreenSegueIdentifier {
-            guard let navigationController = segue.destination as? UINavigationController,
-                  let viewController = navigationController.viewControllers[0] as? AuthViewController else {
-                fatalError("Failed to prepare for \(showAuthenticationScreenSegueIdentifier)")
-            }
-            viewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
+    
+    private func makeUI() {
+         let screenLogo = UIImageView()
+        screenLogo.image = UIImage(named: "Vector")
+        view.backgroundColor = .ypBlack
+        view.addSubview(screenLogo)
+        
+        NSLayoutConstraint.activate([
+            screenLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            screenLogo.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
     }
 }
 
+
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        //UIBlockingProgressHUD.show()
+        UIBlockingProgressHUD.show()
         oAuth2Service.fetchOAuthToken(code, completion: {[weak self] result in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
@@ -71,12 +77,12 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let profile):
                 self.dismiss(animated: true)
-                //UIBlockingProgressHUD.dismiss()
+                UIBlockingProgressHUD.dismiss()
                 self.fetchProfileImage(username: profile.userName)
                 self.switchToTabBarController()
             case .failure(let error):
                 print(error.localizedDescription)
-                //UIBlockingProgressHUD.dismiss()
+                UIBlockingProgressHUD.dismiss()
                 self.showAllert()
             }
         })

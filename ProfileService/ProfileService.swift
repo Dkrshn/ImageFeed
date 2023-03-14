@@ -14,28 +14,6 @@ import Foundation
     static let shared = ProfileService()
     private (set) var profile: Profile?
      
-    
-    struct ProfileResult: Decodable {
-        let userName: String
-        let firstName: String
-        let lastName: String
-        let bio: String?
-        
-        enum CodingKeys: String, CodingKey {
-            case userName = "username"
-            case firstName = "first_name"
-            case lastName = "last_name"
-            case bio = "bio"
-        }
-        
-    }
-    
-     struct Profile {
-        let userName: String
-        let name: String
-        let loginName: String
-        let bio: String
-    }
      
      private func convertToProfile(_ ProfileResult: ProfileResult) -> Profile {
          return Profile(userName: ProfileResult.userName, name: "\(ProfileResult.firstName) \(ProfileResult.lastName)", loginName: "@\(ProfileResult.userName)", bio: ProfileResult.bio ?? "")
