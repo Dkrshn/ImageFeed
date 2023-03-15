@@ -7,28 +7,19 @@
 
 import UIKit
 
-class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController {
     
     
     weak var delegate: AuthViewControllerDelegate?
     private let auth_screen_logo = UIImageView()
     private let button = UIButton()
     private let showWebView = "ShowWebView"
-    static let shared = AuthViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         makeUI()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showWebView {
-            let viewController = segue.destination as! WebViewViewController
-            viewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
-    }
     
     private func makeUI() {
         view.backgroundColor = .ypBlack
@@ -58,7 +49,11 @@ class AuthViewController: UIViewController {
         ])
     }
     @objc func buttonEntrance() {
-        performSegue(withIdentifier: showWebView, sender: nil)
+        if let viewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController {
+            viewController.modalPresentationStyle = .fullScreen
+            viewController.delegate = self
+            present(viewController, animated: true)
+        }
     }
 }
 

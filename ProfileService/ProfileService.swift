@@ -7,23 +7,21 @@
 
 import Foundation
 
- final class ProfileService {
+final class ProfileService {
     
     private var task: URLSessionTask?
     private let urlSession = URLSession.shared
     static let shared = ProfileService()
     private (set) var profile: Profile?
-     
-     
-     private func convertToProfile(_ ProfileResult: ProfileResult) -> Profile {
-         return Profile(userName: ProfileResult.userName, name: "\(ProfileResult.firstName) \(ProfileResult.lastName)", loginName: "@\(ProfileResult.userName)", bio: ProfileResult.bio ?? "")
-     }
+    
+    
+    private func convertToProfile(_ ProfileResult: ProfileResult) -> Profile {
+        return Profile(userName: ProfileResult.userName, name: "\(ProfileResult.firstName) \(ProfileResult.lastName)", loginName: "@\(ProfileResult.userName)", bio: ProfileResult.bio ?? "")
+    }
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         assert(Thread.isMainThread)
-        if task != nil {
-            task?.cancel()
-        }
+        task?.cancel()
         var request = URLRequest.makeHTTPRequest(path: profilePath, httpMethod: get)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         let task = urlSession.objectTask(for: request, completion: {[weak self] (result: Result<ProfileResult, Error>) in

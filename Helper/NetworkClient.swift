@@ -37,21 +37,20 @@ extension URLSession {
                     do {
                         let decoder = JSONDecoder()
                         let result = try decoder.decode(T.self, from: data)
-                        print("----------------------------\(result)")
                         fullfillCompletion(.success(result))
-                        } catch {
-                            fullfillCompletion(.failure(error))
-                        }
-                        } else {
-                            fullfillCompletion(.failure(NetworkError.httpStatusCode(statusCode)))
-                        }
-                        }else if let error {
-                            fullfillCompletion(.failure(NetworkError.urlRequestError(error)))
-                        } else {
-                            fullfillCompletion(.failure(NetworkError.urlSessionError))
-                        }
-                        })
-                        task.resume()
-                        return task
+                    } catch {
+                        fullfillCompletion(.failure(error))
                     }
+                } else {
+                    fullfillCompletion(.failure(NetworkError.httpStatusCode(statusCode)))
                 }
+            }else if let error {
+                fullfillCompletion(.failure(NetworkError.urlRequestError(error)))
+            } else {
+                fullfillCompletion(.failure(NetworkError.urlSessionError))
+            }
+        })
+        task.resume()
+        return task
+    }
+}

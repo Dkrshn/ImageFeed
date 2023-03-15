@@ -14,7 +14,7 @@ final class SplashViewController: UIViewController {
     private let oAuth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
-    private let authViewController = AuthViewController.shared
+    private let authViewController = AuthViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,21 +26,20 @@ final class SplashViewController: UIViewController {
         guard let token = oAuth2TokenStorage.token else {
             authViewController.delegate = self
             authViewController.modalPresentationStyle = .fullScreen
-           return present(authViewController, animated: true)
+            return present(authViewController, animated: true)
         }
         fetchProfile(token: token)
-       self.switchToTabBarController()
-   }
+    }
     
     private func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        guard let window = UIApplication.shared.windows.first else { return assertionFailure("Invalid Configuration") } //fatalError("Invalid Configuration") }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
     }
     
     private func makeUI() {
-         let screenLogo = UIImageView()
+        let screenLogo = UIImageView()
         screenLogo.image = UIImage(named: "Vector")
         view.backgroundColor = .ypBlack
         view.addSubview(screenLogo)
@@ -48,7 +47,7 @@ final class SplashViewController: UIViewController {
         NSLayoutConstraint.activate([
             screenLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             screenLogo.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-            ])
+        ])
     }
 }
 
@@ -69,7 +68,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 }
             }
         })
-        }
+    }
     
     private func fetchProfile(token: String) {
         profileService.fetchProfile(token, completion: {[weak self] result in
@@ -99,7 +98,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             }
         })
     }
-   }
+}
 
 extension SplashViewController {
     func showAllert() {

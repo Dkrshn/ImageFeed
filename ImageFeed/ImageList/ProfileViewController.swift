@@ -9,16 +9,16 @@ import UIKit
 import Kingfisher
 
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
     
     private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
     
-    let profilePhoto = UIImageView()
-    let profileName = UILabel()
-    let profileContact = UILabel()
-    let profileAbout = UILabel()
-    let logOutButton = UIButton.systemButton(with: UIImage(named: "ipad.and.arrow.forward")!, target: nil, action: nil)
+    private let profilePhoto = UIImageView()
+    private let profileName = UILabel()
+    private let profileContact = UILabel()
+    private let profileAbout = UILabel()
+    private let logOutButton = UIButton.systemButton(with: UIImage(named: "ipad.and.arrow.forward")!, target: nil, action: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,13 +33,13 @@ class ProfileViewController: UIViewController {
     
     private func makeUI() {
         view.backgroundColor = .ypBlack
-
-       let allViewOnScreen = [profilePhoto, profileName, profileContact, profileAbout, logOutButton]
+        
+        let allViewOnScreen = [profilePhoto, profileName, profileContact, profileAbout, logOutButton]
         allViewOnScreen.forEach {view.addSubview($0)}
         allViewOnScreen.forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
         
-
-
+        
+        
         profileName.text = profileService.profile?.name
         print(profileName.text = profileService.profile?.name)
         profileName.font = UIFont.boldSystemFont(ofSize: 23)
