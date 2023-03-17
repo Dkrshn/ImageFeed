@@ -6,18 +6,22 @@
 //
 
 import Foundation
+import SwiftKeychainWrapper
 
-class OAuth2TokenStorage {
-    private let userDefaults = UserDefaults.standard
-     var token: String? {
+final class OAuth2TokenStorage {
+    var token: String? {
         get {
-            guard let record = userDefaults.string(forKey: Keys.token.rawValue) else {
+            guard let token = KeychainWrapper.standard.string(forKey: Keys.token.rawValue) else {
                 return nil
             }
-            return record
+            return token
         }
         set {
-            userDefaults.set(newValue, forKey: Keys.token.rawValue)
+            guard let newValue = newValue else { return }
+            let isSuccess = KeychainWrapper.standard.set(newValue, forKey: Keys.token.rawValue)
+            guard isSuccess else {
+                return
+            }
         }
     }
     
@@ -25,28 +29,3 @@ class OAuth2TokenStorage {
         case token
     }
 }
-
-/*
- class OAuth2TokenStorage {
-     private let userDefaults = UserDefaults.standard
-      var token: String {
-         get {
-             guard let data = userDefaults.data(forKey: Keys.token.rawValue),
-                   let record = try? JSONDecoder().decode(String.self, from: data) else {
-                 return "Error: not find data"
-             }
-             return record
-         }
-         set {
-             guard let data = try? JSONEncoder().encode(newValue) else {
-                 return
-             }
-             userDefaults.set(data, forKey: Keys.token.rawValue)
-         }
-     }
-     
-     private enum Keys: String {
-         case token
-     }
- }
- */

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController {
     
     
     weak var delegate: AuthViewControllerDelegate?
@@ -20,14 +20,6 @@ class AuthViewController: UIViewController {
         makeUI()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showWebView {
-            let viewController = segue.destination as! WebViewViewController
-            viewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
-    }
     
     private func makeUI() {
         view.backgroundColor = .ypBlack
@@ -56,9 +48,12 @@ class AuthViewController: UIViewController {
             button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
     }
-    
     @objc func buttonEntrance() {
-        performSegue(withIdentifier: showWebView, sender: nil)
+        if let viewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController {
+            viewController.modalPresentationStyle = .fullScreen
+            viewController.delegate = self
+            present(viewController, animated: true)
+        }
     }
 }
 
@@ -66,12 +61,10 @@ extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
-    
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         vc.dismiss(animated: true)
     }
 }
-
 
 protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
