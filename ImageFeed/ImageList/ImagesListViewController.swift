@@ -20,6 +20,7 @@ final class ImagesListViewController: UIViewController {
     }()
     
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
+    private let imagesListService = ImagesListService.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +67,13 @@ extension ImagesListViewController: UITableViewDataSource {
         }
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if imagesListService.photos.isEmpty || (indexPath.row + 1 == imagesListService.photos.count) {
+            imagesListService.fetchPhotosNextPage()
+        }
+        
     }
 }
 

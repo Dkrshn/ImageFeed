@@ -38,8 +38,10 @@ extension URLSession {
                         let decoder = JSONDecoder()
                         let result = try decoder.decode(T.self, from: data)
                         fullfillCompletion(.success(result))
+                        print("-------------------\(result)")
                     } catch {
                         fullfillCompletion(.failure(error))
+                        print("--!!!!!!!!!!!!!!!!!!!!!--\(error)")
                     }
                 } else {
                     fullfillCompletion(.failure(NetworkError.httpStatusCode(statusCode)))
