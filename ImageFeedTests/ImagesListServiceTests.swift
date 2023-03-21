@@ -17,11 +17,9 @@ final class ImageFeedTests: XCTestCase {
         let expectation = self.expectation(description: "Wait for Notification")
         NotificationCenter.default.addObserver(forName: ImagesListService.DidChangeNotification, object: nil, queue: .main) { _ in
             expectation.fulfill()
-            service.fetchPhotosNextPage()
-            print("--------________________~--------\(service.photos.count)")
         }
-        //service.fetchPhotosNextPage()
-        wait(for: [expectation], timeout: 40)
+        service.fetchPhotosNextPage()
+        wait(for: [expectation], timeout: 10)
         
         XCTAssertEqual(service.photos.count, 10)
     }
