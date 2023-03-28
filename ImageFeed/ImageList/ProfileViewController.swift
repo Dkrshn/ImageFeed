@@ -70,10 +70,14 @@ final class ProfileViewController: UIViewController {
             logOutButton.centerYAnchor.constraint(equalTo: profilePhoto.centerYAnchor)
         ])
     }
-        
+    
     
     @objc
     private func didTapButton() {
+        showAlert()
+    }
+    
+    private func exit() {
         oAuth2TokenStorage.removeToken()
         WebViewViewController.clean()
         guard let window = UIApplication.shared.windows.first else { return assertionFailure("Invalid Configuration") }
@@ -91,6 +95,20 @@ extension ProfileViewController {
         let processor = RoundCornerImageProcessor(cornerRadius: 61)
         profilePhoto.kf.setImage(with: url, placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor), .cacheSerializer(FormatIndicatedCacheSerializer.png)])
         profilePhoto.kf.indicatorType = .activity
+    }
+    
+    private func showAlert() {
+        let alert = UIAlertController(title: "Пока, пока!", message: "Уверены что хотите выйти?", preferredStyle: .alert)
+        let actionYes = UIAlertAction(title: "Да", style: .default) {[weak self] _ in
+            guard let self = self else { return }
+            self.exit()
+        }
+        let actionNo = UIAlertAction(title: "Нет", style: .default) { _ in
+            alert.dismiss(animated: true)
+        }
+        alert.addAction(actionYes)
+        alert.addAction(actionNo)
+        present(alert, animated: true)
     }
 }
 
