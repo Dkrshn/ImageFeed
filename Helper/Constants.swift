@@ -14,6 +14,8 @@ let accessScope = "public+read_user+write_likes"
 let profilePath = "me"
 let photosPath = "photos"
 let get = "GET"
+let post = "POST"
+let delete = "DELETE"
 
 var defaultBaseURL: URL {
     guard let url = URL(string: "https://api.unsplash.com/") else {

@@ -28,4 +28,8 @@ final class OAuth2TokenStorage {
     private enum Keys: String {
         case token
     }
+    
+    func removeToken() {
+        let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: Keys.token.rawValue)
+    }
 }

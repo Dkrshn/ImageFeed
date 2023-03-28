@@ -27,3 +27,5 @@ struct Profile {
     let loginName: String
     let bio: String
 }
+
+struct PhotoLikeResult: Codable {}

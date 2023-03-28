@@ -13,12 +13,14 @@ final class ProfileViewController: UIViewController {
     
     private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    private let oAuth2TokenStorage = OAuth2TokenStorage()
+    private let webViewViewController = WebViewViewController()
     
     private let profilePhoto = UIImageView()
     private let profileName = UILabel()
     private let profileContact = UILabel()
     private let profileAbout = UILabel()
-    private let logOutButton = UIButton.systemButton(with: UIImage(named: "ipad.and.arrow.forward")!, target: nil, action: nil)
+    private let logOutButton = UIButton.systemButton(with: UIImage(named: "ipad.and.arrow.forward")!, target: nil, action: #selector(Self.didTapButton))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +70,18 @@ final class ProfileViewController: UIViewController {
             logOutButton.centerYAnchor.constraint(equalTo: profilePhoto.centerYAnchor)
         ])
     }
+        
+    
+    @objc
+    private func didTapButton() {
+        oAuth2TokenStorage.removeToken()
+        WebViewViewController.clean()
+        guard let window = UIApplication.shared.windows.first else { return assertionFailure("Invalid Configuration") }
+        let authVC = UIStoryboard(name: "Main", bundle: .main)
+            .instantiateViewController(withIdentifier: "AuthViewController")
+        window.rootViewController = authVC
+    }
+    
 }
 
 extension ProfileViewController {
@@ -75,7 +89,7 @@ extension ProfileViewController {
         guard  let profileImageURL = ProfileImageService.shared.avatarURL,
                let url = URL(string: profileImageURL)  else { return }
         let processor = RoundCornerImageProcessor(cornerRadius: 61)
-        profilePhoto.kf.setImage(with: url, placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor)])
+        profilePhoto.kf.setImage(with: url, placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor), .cacheSerializer(FormatIndicatedCacheSerializer.png)])
         profilePhoto.kf.indicatorType = .activity
     }
 }

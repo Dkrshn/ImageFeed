@@ -49,6 +49,15 @@ final class WebViewViewController: UIViewController {
         return .darkContent
     }
     
+    static func clean() {
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), completionHandler: { records in
+            records.forEach({ record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+            })
+        })
+    }
+    
 }
 
 extension WebViewViewController: WKNavigationDelegate {
