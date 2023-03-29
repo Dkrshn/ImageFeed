@@ -63,7 +63,8 @@ final class ImagesListViewController: UIViewController {
         
         guard let textData = photos[indexPath.row].createdAt else { return }
         cell.dateTextLabel.text = dateFormatter.string(from: textData)
-        setLike(cell, index: indexPath.row)
+       // setLike(cell, index: indexPath.row)
+        cell.setLike(like: photos[indexPath.row].isLiked)
     }
     
     func updateTableViewAnimated() {
@@ -134,20 +135,12 @@ extension ImagesListViewController: ImagesListCellDelegate {
             switch result{
             case .success(_):
                 self.photos = self.imagesListService.photos
-                self.setLike(cell, index: indexPath.row)
+                cell.setLike(like: self.photos[indexPath.row].isLiked)
                 UIBlockingProgressHUD.dismiss()
             case .failure(let error):
                 UIBlockingProgressHUD.dismiss()
                 print(error.localizedDescription)
             }
         })
-    }
-    
-    func setLike(_ cell: ImagesListCell, index: Int) {
-        if photos[index].isLiked {
-            cell.likeButton.setImage(UIImage(named: "Active"), for: .normal)
-        } else {
-            cell.likeButton.setImage(UIImage(named: "No Active"), for: .normal)
-        }
     }
 }

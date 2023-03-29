@@ -77,8 +77,10 @@ final class ImagesListService {
                     switch result {
                     case .success(_):
                         self.changeLike(photoId)
+                        completion(.success(()))
                     case .failure(let error):
                         assertionFailure("\(error)")
+                        completion(.failure(error))
                     }
                 }
             })
@@ -95,8 +97,10 @@ final class ImagesListService {
                     switch result {
                     case .success(_):
                         self.changeLike(photoId)
+                        completion(.success(()))
                     case .failure(let error):
                         assertionFailure("\(error)")
+                        completion(.failure(error))
                     }
                 }
             })

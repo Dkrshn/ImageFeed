@@ -25,4 +25,12 @@ final class ImagesListCell: UITableViewCell {
         super.prepareForReuse()
         imageViewCell.kf.cancelDownloadTask()
     }
+    
+    func setLike(like: Bool) {
+        if like {
+            likeButton.setImage(UIImage(named: "Active"), for: .normal)
+        } else {
+            likeButton.setImage(UIImage(named: "No Active"), for: .normal)
+        }
+    }
 }
