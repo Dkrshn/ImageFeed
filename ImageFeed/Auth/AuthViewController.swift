@@ -37,6 +37,7 @@ final class AuthViewController: UIViewController {
         button.setTitle("Войти", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.addTarget(self, action: #selector(buttonEntrance), for: .touchUpInside)
+        button.accessibilityIdentifier = "Authenticate"
         
         NSLayoutConstraint.activate([
             auth_screen_logo.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -48,8 +49,12 @@ final class AuthViewController: UIViewController {
             button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
     }
-    @objc func buttonEntrance() {
+    @objc private func buttonEntrance() {
         if let viewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController {
+            let authHelper = AuthHelper()
+            let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+            webViewPresenter.view = viewController
+            viewController.presenter = webViewPresenter
             viewController.modalPresentationStyle = .fullScreen
             viewController.delegate = self
             present(viewController, animated: true)

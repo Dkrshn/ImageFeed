@@ -7,13 +7,12 @@
 
 import Foundation
 
-final class ProfileService {
+class ProfileService {
     
     private var task: URLSessionTask?
     private let urlSession = URLSession.shared
     static let shared = ProfileService()
     private (set) var profile: Profile?
-    
     
     private func convertToProfile(_ ProfileResult: ProfileResult) -> Profile {
         return Profile(userName: ProfileResult.userName, name: "\(ProfileResult.firstName) \(ProfileResult.lastName)", loginName: "@\(ProfileResult.userName)", bio: ProfileResult.bio ?? "")

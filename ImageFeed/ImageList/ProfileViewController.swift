@@ -8,21 +8,35 @@
 import UIKit
 import Kingfisher
 
-
-final class ProfileViewController: UIViewController {
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol? { get set }
+    func makeUI()
+    func showAlert()
+    var profileName: UILabel { get set }
+    var profileContact: UILabel { get set }
+    var profileAbout: UILabel { get set }
     
-    private let profileService = ProfileService.shared
+}
+
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
+    
+    var presenter: ProfilePresenterProtocol?
     private var profileImageServiceObserver: NSObjectProtocol?
     
     private let profilePhoto = UIImageView()
-    private let profileName = UILabel()
-    private let profileContact = UILabel()
-    private let profileAbout = UILabel()
-    private let logOutButton = UIButton.systemButton(with: UIImage(named: "ipad.and.arrow.forward")!, target: nil, action: nil)
+    var profileName = UILabel()
+    var profileContact = UILabel()
+    var profileAbout = UILabel()
+    private let logOutButton = UIButton.systemButton(with: UIImage(named: "ipad.and.arrow.forward")!, target: nil, action: #selector(Self.didTapButton))
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        makeUI()
+        logOutButton.accessibilityIdentifier = "logoutButton"
+        
+        presenter = ProfilePresenter()
+        presenter?.view = self
+        presenter?.setUI()
+        
         
         profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.DidChangeNotification, object: nil, queue: .main) {[weak self] _ in
             guard let self = self else { return }
@@ -31,7 +45,7 @@ final class ProfileViewController: UIViewController {
         updateAvatar()
     }
     
-    private func makeUI() {
+    func makeUI() {
         view.backgroundColor = .ypBlack
         
         let allViewOnScreen = [profilePhoto, profileName, profileContact, profileAbout, logOutButton]
@@ -39,17 +53,12 @@ final class ProfileViewController: UIViewController {
         allViewOnScreen.forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
         
         
-        
-        profileName.text = profileService.profile?.name
-        print(profileName.text = profileService.profile?.name)
         profileName.font = UIFont.boldSystemFont(ofSize: 23)
         profileName.textColor = .ypWhite
         
-        profileContact.text = profileService.profile?.loginName
         profileContact.font = UIFont.systemFont(ofSize: 13)
         profileContact.textColor = .ypGray
         
-        profileAbout.text = profileService.profile?.bio
         profileAbout.font = UIFont.systemFont(ofSize: 13)
         profileAbout.textColor = .ypWhite
         
@@ -68,15 +77,35 @@ final class ProfileViewController: UIViewController {
             logOutButton.centerYAnchor.constraint(equalTo: profilePhoto.centerYAnchor)
         ])
     }
+    
+    @objc
+    private func didTapButton() {
+        showAlert()
+    }
 }
 
 extension ProfileViewController {
-    private func updateAvatar() {
-        guard  let profileImageURL = ProfileImageService.shared.avatarURL,
-               let url = URL(string: profileImageURL)  else { return }
-        let processor = RoundCornerImageProcessor(cornerRadius: 61)
-        profilePhoto.kf.setImage(with: url, placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor)])
+    func updateAvatar() {
+        guard let url = presenter?.getUrlForProfileImage() else { return  }
+        let processor = RoundCornerImageProcessor(cornerRadius: 61, backgroundColor: .clear)
+        profilePhoto.kf.setImage(with: url, placeholder: UIImage(named: "placeholder.jpeg"), options: [.processor(processor), .cacheSerializer(FormatIndicatedCacheSerializer.png)])
         profilePhoto.kf.indicatorType = .activity
+    }
+    
+    func showAlert() {
+        let alert = UIAlertController(title: "Пока, пока!", message: "Уверены что хотите выйти?", preferredStyle: .alert)
+        let actionYes = UIAlertAction(title: "Да", style: .default) {[weak self] _ in
+            guard let self = self else { return }
+            self.presenter?.exit()
+        }
+        let actionNo = UIAlertAction(title: "Нет", style: .default) { _ in
+            alert.dismiss(animated: true)
+        }
+        alert.addAction(actionYes)
+        alert.addAction(actionNo)
+        present(alert, animated: true)
+        
+        alert.view.accessibilityIdentifier = "exit"
     }
 }
 
