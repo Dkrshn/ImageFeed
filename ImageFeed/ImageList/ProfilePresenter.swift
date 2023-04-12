@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol ProfilePresenterProtocol {
+protocol ProfilePresenterProtocol {
     var view: ProfileViewControllerProtocol? { get set }
     func exit()
     func setUI()
@@ -17,13 +17,10 @@ public protocol ProfilePresenterProtocol {
 
 final class ProfilePresenter: ProfilePresenterProtocol {
     
-    
     var view: ProfileViewControllerProtocol?
     private let oAuth2TokenStorage = OAuth2TokenStorage()
     private let webViewViewController = WebViewViewController()
     var profileService = ProfileService.shared
-    
-    
     
     func exit() {
         oAuth2TokenStorage.removeToken()

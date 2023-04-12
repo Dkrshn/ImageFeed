@@ -9,6 +9,11 @@ import XCTest
 
 final class ImageFeedUITests: XCTestCase {
     
+    private let login = ""
+    private let password = ""
+    private let userName = ""
+    private let userContact = ""
+    
     private let app = XCUIApplication()
     override func setUpWithError() throws {
         continueAfterFailure = false
@@ -24,7 +29,7 @@ final class ImageFeedUITests: XCTestCase {
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 20))
         
         loginTextField.tap()
-        loginTextField.typeText("dan2408@yandex.ru")
+        loginTextField.typeText("\(login)")
         
         XCUIApplication().toolbars.buttons["Done"].tap()
         
@@ -33,7 +38,7 @@ final class ImageFeedUITests: XCTestCase {
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 7))
         
         passwordTextField.tap()
-        passwordTextField.typeText("48Dan240811@@@")
+        passwordTextField.typeText("\(password)")
         webView.swipeUp()
         
         print(app.debugDescription)
@@ -78,13 +83,14 @@ final class ImageFeedUITests: XCTestCase {
         sleep(3)
         app.tabBars.buttons.element(boundBy: 1).tap()
         
-        XCTAssertTrue(app.staticTexts["Daniil Krasheninnikov"].exists)
-        XCTAssertTrue(app.staticTexts["@dan2408"].exists)
+        XCTAssertTrue(app.staticTexts["\(userName)"].exists)
+        XCTAssertTrue(app.staticTexts["\(userContact)"].exists)
         
         app.buttons["logoutButton"].tap()
         sleep(1)
         
         app.alerts["exit"].scrollViews.otherElements.buttons["Да"].tap()
+        XCTAssertTrue(app.staticTexts["Text"].exists)
     }
     
 }

@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-public protocol WebViewViewControllerProtocol: AnyObject {
+protocol WebViewViewControllerProtocol: AnyObject {
     var presenter: WebViewPresenterProtocol? { get set }
     func load(request: URLRequest)
     func setProgressValue(_ newValue: Float)
@@ -17,20 +17,13 @@ public protocol WebViewViewControllerProtocol: AnyObject {
 
 final class WebViewViewController: UIViewController, WebViewViewControllerProtocol {
     
+    private var estimatedProgressObservation: NSKeyValueObservation?
     var presenter: WebViewPresenterProtocol?
-    
-    
-    
+    weak var delegate: WebViewViewControllerDelegate?
+
     @IBOutlet private var webView: WKWebView!
     @IBOutlet private var progressView: UIProgressView!
-    weak var delegate: WebViewViewControllerDelegate?
-    private var estimatedProgressObservation: NSKeyValueObservation?
-    @IBAction private func didTapeBackButton(_ sender: Any?) {
-        delegate?.webViewViewControllerDidCancel(self)
-    }
-    
-    
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter?.viewDidLoad()
@@ -39,12 +32,19 @@ final class WebViewViewController: UIViewController, WebViewViewControllerProtoc
         
         estimatedProgressObservation = webView.observe(\.estimatedProgress, options: [], changeHandler: { [weak self] _, _ in
             guard let self = self else { return }
-            //self.updateProgress()
             self.presenter?.didUpdateProgressValue(self.webView.estimatedProgress)
         })
-        
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
+    @IBAction private func didTapeBackButton(_ sender: Any?) {
+        delegate?.webViewViewControllerDidCancel(self)
+    }
+    
+
     
     func setProgressValue(_ newValue: Float) {
         progressView.progress = newValue
@@ -52,10 +52,6 @@ final class WebViewViewController: UIViewController, WebViewViewControllerProtoc
     
     func setProgressHidden(_ isHidden: Bool) {
         progressView.isHidden = isHidden
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .darkContent
     }
     
     static func clean() {
@@ -70,7 +66,6 @@ final class WebViewViewController: UIViewController, WebViewViewControllerProtoc
     func load(request: URLRequest) {
         webView.load(request)
     }
-    
 }
 
 extension WebViewViewController: WKNavigationDelegate {

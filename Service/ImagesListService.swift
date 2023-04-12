@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class ImagesListService {
+class ImagesListService {
     
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int?

@@ -49,7 +49,7 @@ final class AuthViewController: UIViewController {
             button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
     }
-    @objc func buttonEntrance() {
+    @objc private func buttonEntrance() {
         if let viewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController {
             let authHelper = AuthHelper()
             let webViewPresenter = WebViewPresenter(authHelper: authHelper)

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ImageFeed
+@testable import ImageFeed
 
 final class WebViewViewControllerSpy: WebViewViewControllerProtocol {
     var viewDidLoadCalled: Bool = false

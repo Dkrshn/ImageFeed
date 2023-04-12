@@ -7,17 +7,15 @@
 
 import Foundation
 
-public protocol ImageListPresenterProtocol {
+protocol ImageListPresenterProtocol {
     var view: ImagesListViewControllerProtocol? { get set }
     var imagesListService: ImagesListService { get }
     func fetchPhotosNextPage()
     func chekFilledList(_ indexPath: IndexPath)
     func setLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
-    
-    
 }
 
-class ImageListPresenter: ImageListPresenterProtocol {
+final class ImageListPresenter: ImageListPresenterProtocol {
     var view: ImagesListViewControllerProtocol?
     var imagesListService = ImagesListService.shared
     

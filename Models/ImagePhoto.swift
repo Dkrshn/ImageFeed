@@ -32,7 +32,7 @@ struct UrlsResult: Codable {
     let thumb: String
 }
 
-public struct Photo {
+struct Photo {
     let id: String
     let size: CGSize
     let createdAt: Date?

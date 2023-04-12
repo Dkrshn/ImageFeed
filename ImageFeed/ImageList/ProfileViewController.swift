@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-public protocol ProfileViewControllerProtocol: AnyObject {
+protocol ProfileViewControllerProtocol: AnyObject {
     var presenter: ProfilePresenterProtocol? { get set }
     func makeUI()
     func showAlert()
@@ -17,7 +17,6 @@ public protocol ProfileViewControllerProtocol: AnyObject {
     var profileAbout: UILabel { get set }
     
 }
-
 
 final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
     
@@ -78,7 +77,6 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
             logOutButton.centerYAnchor.constraint(equalTo: profilePhoto.centerYAnchor)
         ])
     }
-    
     
     @objc
     private func didTapButton() {

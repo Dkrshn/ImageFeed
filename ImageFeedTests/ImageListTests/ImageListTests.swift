@@ -9,7 +9,7 @@ import XCTest
 @testable import ImageFeed
 
 
-class ImageListTests: XCTestCase {
+final class ImageListTests: XCTestCase {
     
     func testSetLike () {
         //given

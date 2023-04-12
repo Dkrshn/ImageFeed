@@ -12,11 +12,10 @@ protocol ImagesListCellDelegate: AnyObject {
     func imageListCellDidTapLike(_ cell: ImagesListCell)
 }
 
-public protocol ImagesListViewControllerProtocol {
+protocol ImagesListViewControllerProtocol {
     var presenter: ImageListPresenterProtocol? { get set }
     var photos: [Photo] { get set }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
-    
 }
 
 final class ImagesListViewController: UIViewController, ImagesListViewControllerProtocol {
@@ -68,7 +67,6 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
         })
         cell.imageViewCell.kf.indicatorType = .activity
-        
         guard let textData = photos[indexPath.row].createdAt else { return }
         cell.dateTextLabel.text = dateFormatter.string(from: textData)
         cell.setLike(like: photos[indexPath.row].isLiked)
@@ -116,9 +114,7 @@ extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)
     }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         let image = photos[indexPath.row]
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
